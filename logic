@@ -1,0 +1,52 @@
+import random
+import os
+
+import discord
+from discord.ext import commands
+
+intents= discord.Intents.default()
+intents.message_content = True
+bot = commands.Bot(command_prefix='/', intents=intents)
+
+@bot.event
+async def on_ready():
+    print("Я готов")
+
+
+@bot.command()
+async def time_bust(ctx, material):
+    if material == 'пластик':
+        await ctx.send('пластик раздагается от 6 месяцев (дешёвый пластик) до 700 лет')
+    elif material == 'стекло':
+        await ctx.send('стекло разлагается более 1000 лет')
+    elif material == 'металл':
+        await ctx.send('металл разлагается от 10 до 100 лет')
+    elif material == 'батарейки':
+        await ctx.send('батарейки могут разлагаться 100 лет')
+    elif material == 'резина':
+        await ctx.send('резина может разлагаться более 100 лет')
+    elif material == 'ртуть':
+        await ctx.send('ртуть миспаряется за 3 года, а разлагается в среднем до 100 лет')
+    elif material == 'уран':
+        await ctx.send('уран может разлагаться 4,5 млр лет')
+
+@bot.command()
+async def photo(ctx):
+    files = os.listdir('m2.y2/images_sea')
+    rand_photo = random.choice(files)
+    with open(f'm2.y2/images_sea/{rand_photo}', "rb") as file:
+        picture = discord.File(file)
+    await ctx.send(file=picture)
+
+
+@bot.command()
+async def sort_pererab(ctx, material):
+    if material == 'переработанный пластик':
+        await ctx.send('Сегодня переработанный пластик применяют в производстве полиэстера, нейлона, синтепона, прочих синтетических текстильных материалов.')
+    elif material == 'переработанное стекло':
+        await ctx.send('Эти «вторичные» виды использования переработанного тарного стекла могут включать плитку, фильтрацию, сырье для пескоструйной обработки, бетонные тротуары.')
+    elif material == 'макулатура':
+        await ctx.send('Макулатура используется в качестве вторичного сырья при производстве бумаги, картона, одноразовой посуды, одежды, средств личной гигиены и некоторых строительных материалов')
+
+
+bot.run('your token')
